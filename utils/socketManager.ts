@@ -1,6 +1,6 @@
 import io from "socket.io-client";
 
-const socket = io("localhost:8080", {
+const socket = io("192.168.178.51:8080", {
   transports: ["websocket", "polling"],
 });
 
