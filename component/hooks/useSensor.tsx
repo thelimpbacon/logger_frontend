@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import socket from "../../utils/socketManager";
 
-interface Props {
-  sensorName: "sensor1" | "sensor2" | "sensor3";
+export interface ISensor {
+  sensorName?: "sensor1" | "sensor2" | "sensor3";
 }
 
-const useSensor = ({ sensorName }: Props) => {
-  const [sensor, setSensor] = useState(0);
+const useSensor = () => {
+  const [sensor, setSensor] = useState();
 
   useEffect(() => {
-    socket.on(sensorName, (payload) => {
+    socket.on("sensors", (payload) => {
       setSensor(payload);
     });
   }, []);
