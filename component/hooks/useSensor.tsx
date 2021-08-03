@@ -5,8 +5,15 @@ export interface ISensor {
   sensorName?: "sensor1" | "sensor2" | "sensor3";
 }
 
+interface ISensorData {
+  sensor1: number;
+  sensor2: number;
+  sensor3: number;
+  tick: number;
+}
+
 const useSensor = () => {
-  const [sensor, setSensor] = useState();
+  const [sensor, setSensor] = useState<ISensorData>();
 
   useEffect(() => {
     socket.on("sensors", (payload) => {

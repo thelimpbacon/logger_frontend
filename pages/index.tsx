@@ -1,11 +1,11 @@
 import ConnectionStatus from "../component/hooks/ConnectionStatus";
-import ReeChart from "../component/ReeChart";
+import SensorGroup from "../component/SensorGroup";
 
 export default function Home() {
   return (
     <>
       <ConnectionStatus />
-      <ReeChart />
+      <SensorGroup />
     </>
   );
 }
