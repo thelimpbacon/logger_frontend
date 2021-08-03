@@ -6,17 +6,37 @@ const options = {
   animation: false,
   maintainAspectRation: false,
   // responsive: false,
+  plugins: {
+    legend: {
+      labels: {
+        color: "white",
+        boxHeight: 5,
+        boxWidth: 5,
+        font: {
+          size: 20,
+        },
+      },
+    },
+  },
+  elements: {
+    point: {
+      pointStyle: "line",
+    },
+  },
   scales: {
     y: {
       ticks: {
         display: false,
       },
-      max: 1,
+      max: 1.2,
       min: 0,
     },
     x: {
       ticks: {
-        display: true,
+        display: false,
+      },
+      grid: {
+        color: "transparent",
       },
     },
   },
@@ -24,6 +44,7 @@ const options = {
 
 interface ILineChart extends ISensor {
   borderColor?: string;
+  backgroundColor?: string;
   update: {
     label: number;
     datum: number;
@@ -32,12 +53,17 @@ interface ILineChart extends ISensor {
 
 const updater = (list: Array<number>, newData: number): Array<number> => {
   const addedOnList = [...list, newData];
-  return addedOnList.length <= 100 ? addedOnList : addedOnList.splice(1);
+  return addedOnList.length <= 150 ? addedOnList : addedOnList.splice(1);
 };
 
-const LineChart = ({ sensorName, borderColor, update }: ILineChart) => {
-  const [labels, setLabels] = useState<Array<number>>([...Array(20).fill(0)]);
-  const [data, setData] = useState<Array<number>>([...Array(20).fill(0)]);
+const LineChart = ({
+  sensorName,
+  borderColor,
+  backgroundColor,
+  update,
+}: ILineChart) => {
+  const [labels, setLabels] = useState<Array<number>>([...Array(100).fill(0)]);
+  const [data, setData] = useState<Array<number>>([...Array(100).fill(0)]);
 
   useEffect(() => {
     setLabels(updater(labels, update.label));
@@ -45,32 +71,23 @@ const LineChart = ({ sensorName, borderColor, update }: ILineChart) => {
   }, [update]);
 
   return (
-    <div
-      className="chart-container"
-      style={
-        {
-          // position: "relative",
-          // height: "500px",
-          // width: "40vw",
-        }
-      }
-    >
-      <Line
-        data={{
-          labels,
-          datasets: [
-            {
-              label: sensorName,
-              data,
-              fill: false,
-              backgroundColor: borderColor,
-              borderColor: borderColor,
-            },
-          ],
-        }}
-        options={options}
-      />
-    </div>
+    <Line
+      height={70}
+      data={{
+        labels,
+        datasets: [
+          {
+            label: sensorName,
+            data,
+            fill: true,
+            backgroundColor: backgroundColor,
+            borderColor: borderColor,
+            borderWidth: 2,
+          },
+        ],
+      }}
+      options={options}
+    />
   );
 };
 
